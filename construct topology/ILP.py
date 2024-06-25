@@ -1,4 +1,3 @@
-# %%
 import gurobipy as gp
 from gurobipy import GRB
 import numpy as np
@@ -6,7 +5,6 @@ import networkx as nx
 import random
 
 
-# %%
 def random_commo(num_nodes, num_commo):
     commo_set = []
     for _ in range(num_commo):
@@ -18,7 +16,6 @@ def random_commo(num_nodes, num_commo):
     return(commo_set)
 
 
-# %%
 def MCF(num_nodes,Graph,large_commo):
 
     nodes = [i for i in range(num_nodes)]
