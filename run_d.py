@@ -1,4 +1,4 @@
-from ILP_2 import MCF,Graph_construc
+from ILP import MCF,Graph_construc
 import networkx as nx
 
 numnodes_list = [16,32,64]
