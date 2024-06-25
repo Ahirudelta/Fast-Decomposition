@@ -5,6 +5,7 @@ import numpy as np
 import networkx as nx
 import random
 
+
 # %%
 def random_commo(num_nodes, num_commo):
     commo_set = []
@@ -97,41 +98,16 @@ def MCF(num_nodes,Graph,large_commo):
 
 
 
-
-
-# %%
 def Graph_construc(num_nodes, large_commo):
     N = [n for n in range(num_nodes)]
-    # modify
-
-
-    # order = [i for i in range(num_nodes)]
-    # random.shuffle(order)
-    # print(order)
-    # circle = [(order[i],order[(i+1)%num_nodes]) for i in range(num_nodes)]
-    # print(circle)
-
 
   
 
     nodes = [n for n in N]
     links = [(i,j) for i in nodes for j in nodes if i!=j]
-    # remove_links = [(0,1), (1,0), (0,2), (2,0), (0,3), (3,0)]
-    # for l in remove_links:
-    #     links.remove(l)
-
-    # links = [(i,j) for i in N for j in N if i!=j and (x[i,j].x >= 1 or x[j,i].x >= 1)]
-    # print(f'links = {links}')
-    # commoSet = [(a, b) for a in nodes for b in nodes if a!=b]
     commoSet = large_commo.copy()
-    # for i in circle:
-    #     if i not in commoSet:
-    #         commoSet.append(i)
-
-    # print("commoSet =", commoSet)
     allpair = [(a, b) for a in nodes for b in nodes]
-    # print("allpair =", allpair)  
-    # Gen capacity matrix from input dict graph G
+
     c = dict()
     for a,b in allpair:
         c[a,b] = 0 
@@ -199,14 +175,6 @@ def Graph_construc(num_nodes, large_commo):
 
 
     mod.addConstrs(max_flow >= Flow[u,v,i,j] for u,v in commoSet for i in nodes for j in nodes if i!=j)
-    # mod.addConstr(max_flow <= Degree/4)
-    # # # Subtour elimination constraints (Miller-Tucker-Zemlin formulation)
-    # d = mod.addVars(num_nodes, vtype=GRB.CONTINUOUS, name="d")
-    # mod.addConstrs((d[i] - d[j] + num_nodes * G[i, j] <= num_nodes - 1 for i in nodes for j in nodes if i != j), name="SubtourElimination")
-    # mod.addConstr((d[0] == 0), name="FixNode")
-
-
-    #mod.addConstr(sumtheta == sum(theta[u,v] for (u,v) in commoSet))
     mod.Params.LogToconsole = 0
 
 
@@ -234,10 +202,6 @@ def Graph_construc(num_nodes, large_commo):
 
 
     # import networkx as nx
-    import numpy as np
-    # GG = nx.DiGraph()
-    # GG.add_nodes_from(nodes)
-    # edges_list = []
     result_adj = np.zeros(shape=(num_nodes, num_nodes))
     for i in nodes:
         for j in nodes:
