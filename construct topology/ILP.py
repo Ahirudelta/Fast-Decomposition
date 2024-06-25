@@ -19,23 +19,13 @@ def random_commo(num_nodes, num_commo):
 
 # %%
 def MCF(num_nodes,Graph,large_commo):
-    # N = [n for n in range(num_nodes)]
-    nodes = [i for i in range(num_nodes)]
-    # links = [(i,j) for i in nodes for j in nodes if i!=j]
-    # remove_links = [(0,1), (1,0), (0,2), (2,0), (0,3), (3,0)]
-    # for l in remove_links:
-    #     links.remove(l)
 
+    nodes = [i for i in range(num_nodes)]
     links = list(Graph.edges())
-    # print(links)
-    # links = [(i,j) for i in N for j in N if i!=j and (x[i,j].x >= 1 or x[j,i].x >= 1)]
-    # print(f'links = {links}')
-    # commoSet = [(a, b) for a in nodes for b in nodes if a!=b]
     commoSet = [commo for commo in large_commo]
 
-    # print("commoSet =", commoSet)
+
     allpair = [(a, b) for a in nodes for b in nodes]
-    # print("allpair =", allpair)  
     # Gen capacity matrix from input dict graph G
     c = dict()
     for a,b in allpair:
@@ -44,10 +34,6 @@ def MCF(num_nodes,Graph,large_commo):
         c[i,j] = 1
 
 
-    # print(c)
-    # traffic = dict()
-    # for u,v in commoSet:
-    #     traffic[u,v] = 1
 
 
     # construct model
@@ -56,8 +42,6 @@ def MCF(num_nodes,Graph,large_commo):
     mintheta = mod.addVar(vtype = GRB.CONTINUOUS, lb = 0, name = "mintheta")
     Flow = mod.addVars(commoSet, nodes, nodes, vtype = GRB.CONTINUOUS, lb = 0, name = "Flow")
     theta = mod.addVars(commoSet, vtype = GRB.CONTINUOUS, lb = 0, name = "theta")
-    #sumtheta = mod.addVar(vtype = GRB.CONTINUOUS, lb = 0, name = "sumtheta")
-    #mod.setObjective(alpha, GRB.MAXIMIZE)
 
 
     mod.addConstrs(sum(Flow[u,v,i,j] for u,v in commoSet) <= Graph[i][j]['weight'] for i,j in links)
